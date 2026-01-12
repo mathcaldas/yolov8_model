@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.venv/
+.env
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data / datasets
+downloads/
+data/
+date/
+dataset/
+datasets/
+cropped_class_2/
+cropped_class_2_02/
+
+# Raw dataset folders inside project
+Diurnas/train/
+Diurnas/valid/
+Noturnas/train/
+Noturnas/valid/
+
+# YOLO runs / outputs
+**/runs/**/weights/
+**/runs/**/results.csv
+**/runs/**/events.out.tfevents*
+**/runs/**/metrics_plot.png
+**/runs/**/confusion_matrix*
+**/runs/**/labels.jpg
+**/runs/**/train_batch*
+**/runs/**/val_batch*
+
+# Model weights / exports
+*.pt
+*.onnx
+*.engine
+*.torchscript
+*.tflite
+*.mlmodel
+*.bin
+*.ckpt
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+*.tgz
