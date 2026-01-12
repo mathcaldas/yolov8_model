@@ -1,5 +1,5 @@
 """
-Treino YOLOv8 segmentacao para o dataset Noturnas usando as configs de Noturnas/runs/segment/train/args.yaml.
+Treino YOLOv8 segmentacao para o dataset Noturnas usando configs em configs/noturnas_args.yaml.
 Execute: python train_noturnas.py
 """
 
@@ -17,9 +17,11 @@ except ImportError:
 
 
 ROOT = Path(__file__).resolve().parent
+CONFIGS_ROOT = ROOT / "configs"
 DATASETS_ROOT = ROOT / "datasets"
 DATASET_NAME = "Noturnas"
 DEFAULT_RUN_DIR = "train"
+DEFAULT_ARGS_NAME = "noturnas_args.yaml"
 DEFAULT_RUN_NAME = "train_noturnas_api"
 
 
@@ -38,17 +40,25 @@ def resolve_dataset_dir(dataset_name: str) -> Path:
     return DATASETS_ROOT / dataset_name
 
 
-def resolve_args_path(dataset_name: str, run_dir: str) -> Path:
+def resolve_args_path(dataset_name: str, run_dir: str, args_name: str) -> Path:
+    config_path = CONFIGS_ROOT / args_name
+    if config_path.exists():
+        return config_path
+    for candidate in dataset_base_dirs(dataset_name):
+        args_path = candidate / "runs" / "segment" / run_dir / args_name
+        if args_path.exists():
+            return args_path
     for candidate in dataset_base_dirs(dataset_name):
         args_path = candidate / "runs" / "segment" / run_dir / "args.yaml"
         if args_path.exists():
             return args_path
-    return DATASETS_ROOT / dataset_name / "runs" / "segment" / run_dir / "args.yaml"
+    return config_path
 
 
-DEFAULT_ARGS_PATH = resolve_args_path(DATASET_NAME, DEFAULT_RUN_DIR)
-DEFAULT_DATA_PATH = resolve_dataset_dir(DATASET_NAME) / "data.yaml"
-DEFAULT_PROJECT_DIR = DEFAULT_ARGS_PATH.parent.parent
+DEFAULT_ARGS_PATH = resolve_args_path(DATASET_NAME, DEFAULT_RUN_DIR, DEFAULT_ARGS_NAME)
+DEFAULT_DATASET_DIR = resolve_dataset_dir(DATASET_NAME)
+DEFAULT_DATA_PATH = DEFAULT_DATASET_DIR / "data.yaml"
+DEFAULT_PROJECT_DIR = DEFAULT_DATASET_DIR / "runs" / "segment"
 
 DROP_TRAIN_KEYS = {"model", "mode", "task", "save_dir"}
 
