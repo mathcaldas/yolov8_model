@@ -1,0 +1,6 @@
+gdown
+matplotlib
+PyYAML
+torch
+torchvision
+ultralytics
